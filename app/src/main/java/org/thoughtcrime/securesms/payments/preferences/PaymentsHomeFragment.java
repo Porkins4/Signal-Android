@@ -1,7 +1,7 @@
 package org.thoughtcrime.securesms.payments.preferences;
 
 import android.app.AlertDialog;
-import android.content.Intent;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -240,17 +240,18 @@ public class PaymentsHomeFragment extends LoggingFragment {
   class HomeCallbacks implements PaymentsHomeAdapter.Callbacks {
     @Override
     public void onActivatePayments() {
-      new MaterialAlertDialogBuilder(requireContext())
-                     .setMessage(R.string.PaymentsHomeFragment__you_can_use_signal_to_send)
-                     .setPositiveButton(R.string.PaymentsHomeFragment__activate, (dialog, which) -> {
+      MaterialAlertDialogBuilder dialogBuilder = new MaterialAlertDialogBuilder(requireContext());
+      dialogBuilder.setMessage(R.string.PaymentsHomeFragment__you_can_use_signal_to_send);
+      dialogBuilder.setPositiveButton(R.string.PaymentsHomeFragment__activate, (dialog, which) -> {
                        viewModel.activatePayments();
                        dialog.dismiss();
-                     })
-                     .setNegativeButton(R.string.PaymentsHomeFragment__view_mobile_coin_terms, (dialog, which) -> {
+                     });
+      dialogBuilder.setNegativeButton(R.string.PaymentsHomeFragment__view_mobile_coin_terms, (dialog, which) -> {
                        CommunicationActions.openBrowserLink(requireContext(), getString(R.string.PaymentsHomeFragment__mobile_coin_terms_url));
-                     })
-                     .setNeutralButton(android.R.string.cancel, (dialog, which) -> dialog.dismiss())
-                     .show();
+                     });
+      dialogBuilder.setNeutralButton(android.R.string.cancel, (dialog, which) -> dialog.dismiss());
+      androidx.appcompat.app.AlertDialog alertDialog = dialogBuilder.show();
+      alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE).setSingleLine(false);
     }
 
     @Override

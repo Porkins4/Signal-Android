@@ -7,11 +7,13 @@ import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
@@ -108,43 +110,48 @@ public class ChatWallpaperFragment extends Fragment {
 
     if (viewModel.isGlobal()) {
       resetAllWallpaper.setOnClickListener(unused -> {
-        new MaterialAlertDialogBuilder(requireContext())
-            .setTitle(R.string.ChatWallpaperFragment__reset_wallpaper)
-            .setMessage(R.string.ChatWallpaperFragment__would_you_like_to_override_all_wallpapers)
-            .setPositiveButton(R.string.ChatWallpaperFragment__reset_default_wallpaper, (dialog, which) -> {
+        MaterialAlertDialogBuilder dialogBuilder = new MaterialAlertDialogBuilder(requireContext());
+        dialogBuilder.setTitle(R.string.ChatWallpaperFragment__reset_wallpaper);
+        dialogBuilder.setMessage(R.string.ChatWallpaperFragment__would_you_like_to_override_all_wallpapers);
+        dialogBuilder.setPositiveButton(R.string.ChatWallpaperFragment__reset_default_wallpaper, (dialog, which) -> {
               viewModel.setWallpaper(null);
               viewModel.setDimInDarkTheme(true);
               viewModel.saveWallpaperSelection();
               dialog.dismiss();
-            })
-            .setNegativeButton(R.string.ChatWallpaperFragment__reset_all_wallpapers, (dialog, which) -> {
+            });
+        dialogBuilder.setNegativeButton(R.string.ChatWallpaperFragment__reset_all_wallpapers, (dialog, which) -> {
               viewModel.setWallpaper(null);
               viewModel.setDimInDarkTheme(true);
               viewModel.resetAllWallpaper();
               dialog.dismiss();
-            })
-            .setNeutralButton(android.R.string.cancel, (dialog, which) -> {
+            });
+        dialogBuilder.setNeutralButton(android.R.string.cancel, (dialog, which) -> {
               dialog.dismiss();
-            })
-            .show();
+            });
+        AlertDialog alertDialog = dialogBuilder.show();
+        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setSingleLine(false);
+        alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setSingleLine(false);
       });
 
       resetChatColors.setOnClickListener(unused -> {
-        new MaterialAlertDialogBuilder(requireContext())
-            .setTitle(R.string.ChatWallpaperFragment__reset_chat_colors)
-            .setMessage(R.string.ChatWallpaperFragment__would_you_like_to_override_all_chat_colors)
-            .setPositiveButton(R.string.ChatWallpaperFragment__reset_default_colors, (dialog, which) -> {
+        MaterialAlertDialogBuilder dialogBuilder = new MaterialAlertDialogBuilder(requireContext());
+        dialogBuilder.setTitle(R.string.ChatWallpaperFragment__reset_chat_colors);
+        dialogBuilder.setMessage(R.string.ChatWallpaperFragment__would_you_like_to_override_all_chat_colors);
+        dialogBuilder.setPositiveButton(R.string.ChatWallpaperFragment__reset_default_colors, (dialog, which) -> {
               viewModel.clearChatColor();
               dialog.dismiss();
-            })
-            .setNegativeButton(R.string.ChatWallpaperFragment__reset_all_colors, (dialog, which) -> {
+            });
+        dialogBuilder.setNegativeButton(R.string.ChatWallpaperFragment__reset_all_colors, (dialog, which) -> {
               viewModel.resetAllChatColors();
               dialog.dismiss();
-            })
-            .setNeutralButton(android.R.string.cancel, (dialog, which) -> {
+            });
+        dialogBuilder.setNeutralButton(android.R.string.cancel, (dialog, which) -> {
               dialog.dismiss();
-            })
-            .show();
+            });
+        AlertDialog alertDialog = dialogBuilder.show();
+        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setSingleLine(false);
+        alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setSingleLine(false);
+
       });
     } else {
       resetAllWallpaper.setText(R.string.ChatWallpaperFragment__reset_wallpaper);
@@ -164,11 +171,13 @@ public class ChatWallpaperFragment extends Fragment {
       });
 
       resetChatColors.setOnClickListener(unused -> {
-        new MaterialAlertDialogBuilder(requireContext())
-            .setMessage(R.string.ChatWallpaperFragment__reset_chat_color_question)
-            .setPositiveButton(R.string.ChatWallpaperFragment__reset, (dialog, which) -> viewModel.clearChatColor())
-            .setNegativeButton(android.R.string.cancel, (dialog, which) -> dialog.dismiss())
-            .show();
+        MaterialAlertDialogBuilder dialogBuilder = new MaterialAlertDialogBuilder(requireContext());
+        dialogBuilder.setMessage(R.string.ChatWallpaperFragment__reset_chat_color_question);
+        dialogBuilder.setPositiveButton(R.string.ChatWallpaperFragment__reset, (dialog, which) -> viewModel.clearChatColor());
+        dialogBuilder.setNegativeButton(android.R.string.cancel, (dialog, which) -> dialog.dismiss());
+        AlertDialog alertDialog = dialogBuilder.show();
+        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setSingleLine(false);
+        alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setSingleLine(false);
       });
     }
 

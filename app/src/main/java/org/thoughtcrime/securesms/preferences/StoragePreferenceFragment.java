@@ -129,12 +129,14 @@ public class StoragePreferenceFragment extends ListSummaryPreferenceFragment {
     }
 
     private void showAreYouReallySure() {
-      new MaterialAlertDialogBuilder(requireActivity())
-          .setTitle(R.string.preferences_storage__are_you_sure_you_want_to_delete_all_message_history)
-          .setMessage(R.string.preferences_storage__all_message_history_will_be_permanently_removed_this_action_cannot_be_undone)
-          .setPositiveButton(R.string.preferences_storage__delete_all_now, (d, w) -> SignalExecutors.BOUNDED.execute(() -> SignalDatabase.threads().deleteAllConversations()))
-          .setNegativeButton(android.R.string.cancel, null)
-          .show();
+      MaterialAlertDialogBuilder dialogBuilder = new MaterialAlertDialogBuilder(requireActivity());
+      dialogBuilder.setTitle(R.string.preferences_storage__are_you_sure_you_want_to_delete_all_message_history);
+      dialogBuilder.setMessage(R.string.preferences_storage__all_message_history_will_be_permanently_removed_this_action_cannot_be_undone);
+      dialogBuilder.setPositiveButton(R.string.preferences_storage__delete_all_now, (d, w) -> SignalExecutors.BOUNDED.execute(() -> SignalDatabase.threads().deleteAllConversations()));
+      dialogBuilder.setNegativeButton(android.R.string.cancel, null);
+      AlertDialog alertDialog = dialogBuilder.show();
+      alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setSingleLine(false);
+      alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setSingleLine(false);
     }
   }
 

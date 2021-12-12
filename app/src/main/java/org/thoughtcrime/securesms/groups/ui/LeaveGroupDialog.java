@@ -77,12 +77,14 @@ public final class LeaveGroupDialog {
   }
 
   private void showSelectNewAdminDialog() {
-    new MaterialAlertDialogBuilder(activity)
-                   .setTitle(R.string.LeaveGroupDialog_choose_new_admin)
-                   .setMessage(R.string.LeaveGroupDialog_before_you_leave_you_must_choose_at_least_one_new_admin_for_this_group)
-                   .setNegativeButton(android.R.string.cancel, null)
-                   .setPositiveButton(R.string.LeaveGroupDialog_choose_admin, (d,w) -> activity.startActivity(ChooseNewAdminActivity.createIntent(activity, groupId.requireV2())))
-                   .show();
+    MaterialAlertDialogBuilder dialogBuilder = new MaterialAlertDialogBuilder(activity);
+    dialogBuilder.setTitle(R.string.LeaveGroupDialog_choose_new_admin);
+    dialogBuilder.setMessage(R.string.LeaveGroupDialog_before_you_leave_you_must_choose_at_least_one_new_admin_for_this_group);
+    dialogBuilder.setNegativeButton(android.R.string.cancel, null);
+    dialogBuilder.setPositiveButton(R.string.LeaveGroupDialog_choose_admin, (d,w) -> activity.startActivity(ChooseNewAdminActivity.createIntent(activity, groupId.requireV2())));
+    AlertDialog alertDialog = dialogBuilder.show();
+    alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setSingleLine(false);
+    alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setSingleLine(false);
   }
 
   private void showLeaveDialog() {
